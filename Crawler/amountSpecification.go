@@ -13,6 +13,31 @@ const (
 	https = "https:"
 )
 
+func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, error) {
+	links, err := driver.FindElements(selenium.ByXPATH, bookOpenLink)
+	if err != nil {
+		return bookLink{}, err
+	}
+
+	if len(links) > 1 {
+		//TODO: need to parse all book founded not only the first one
+		return bookLink{
+			HasLink: true,
+			Link:    links[0],
+		}, nil
+	} else if len(links) != 0 {
+		return bookLink{
+			HasLink: true,
+			Link:    links[0],
+		}, nil
+	} else {
+		return bookLink{
+			HasLink: false,
+			Link:    nil,
+		}, nil
+	}
+}
+
 func amountSpecification(driver selenium.WebDriver, bookOpenLink string, productSpecificationTR string) (int, error) {
 	oneBook, err := onlyOneBook(driver, bookOpenLink)
 	if err != nil {
@@ -43,28 +68,4 @@ func amountSpecification(driver selenium.WebDriver, bookOpenLink string, product
 
 	return 0, nil
 
-}
-
-func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, error) {
-	links, err := driver.FindElements(selenium.ByXPATH, bookOpenLink)
-	if err != nil {
-		return bookLink{}, err
-	}
-
-	if len(links) > 1 {
-		return bookLink{
-			HasLink: false,
-			Link:    nil,
-		}, nil
-	} else if len(links) != 0 {
-		return bookLink{
-			HasLink: true,
-			Link:    links[0],
-		}, nil
-	} else {
-		return bookLink{
-			HasLink: false,
-			Link:    nil,
-		}, nil
-	}
 }

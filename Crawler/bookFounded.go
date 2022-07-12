@@ -22,6 +22,26 @@ type Book struct {
 	PubYear       string
 }
 
+func title(driver selenium.WebDriver, i int) (string, error) {
+	xpath := xpathTitleInit + strconv.Itoa(i) + xpathTitleEnd
+
+	titles, err := driver.FindElements(selenium.ByXPATH, xpath)
+	if err != nil {
+		return "", err
+	}
+
+	if len(titles) != 0 {
+		textTitle, err := titles[0].Text()
+		if err != nil {
+			return "", err
+		}
+
+		return textTitle, nil
+	}
+
+	return "", nil
+}
+
 func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 	var isbn string
 	var dtDis string
@@ -39,10 +59,17 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 			return Book{}, err
 		}
 
-		if specification == "" {
+		if specification != "" {
+			//TODO: does this makes sense?
+			position := i + 1
+			elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position)+"]/div[2]")
+			if err != nil {
+				return Book{}, err
+			}
+
 			switch specification {
 			case ISBN:
-				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(i-1)+"]/div[2]")
+				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -54,7 +81,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 
 				isbn = text
 			case Date:
-				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(i-1)+"]/div[2]")
+				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -66,7 +93,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 
 				dtDis = text
 			case Pages:
-				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(i-1)+"]/div[2]")
+				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -78,7 +105,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 
 				pgs = text
 			case Year:
-				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(i-1)+"]/div[2]")
+				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -101,24 +128,4 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 		PubYear:       yr,
 	}, nil
 
-}
-
-func title(driver selenium.WebDriver, j int) (string, error) {
-	xpath := xpathTitleInit + strconv.Itoa(j) + xpathTitleEnd
-
-	titles, err := driver.FindElements(selenium.ByXPATH, xpath)
-	if err != nil {
-		return "", err
-	}
-
-	if len(titles) != 0 {
-		title, err := titles[0].Text()
-		if err != nil {
-			return "", err
-		}
-
-		return title, nil
-	}
-
-	return "", nil
 }
