@@ -23,7 +23,7 @@ func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, erro
 		//TODO: need to parse all books
 		return bookLink{
 			HasLink: true,
-			Link:    nil,
+			Link:    links[0],
 		}, nil
 	} else if len(links) != 0 {
 		return bookLink{

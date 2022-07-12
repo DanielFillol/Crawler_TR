@@ -12,10 +12,5 @@ func SeleniumWebDriver() (selenium.WebDriver, error) {
 		return nil, err
 	}
 
-	err = driver.MaximizeWindow("")
-	if err != nil {
-		return nil, err
-	}
-
 	return driver, nil
 }

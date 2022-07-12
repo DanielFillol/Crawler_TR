@@ -14,6 +14,8 @@ func Craw(bookName string) (Book, error) {
 		return Book{}, err
 	}
 
+	defer driver.Close()
+
 	bookSearch := webSiteTR + bookName
 
 	err = driver.Get(bookSearch)
@@ -32,11 +34,6 @@ func Craw(bookName string) (Book, error) {
 		if err != nil {
 			return Book{}, err
 		}
-	}
-
-	err = driver.Close()
-	if err != nil {
-		return Book{}, err
 	}
 
 	return book, nil

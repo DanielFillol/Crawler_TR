@@ -5,7 +5,6 @@ import (
 	"github.com/Darklabel91/Crawler_TR/Crawler"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
 //writeCSV exports a csv to a given folder, with a given name from a collection of Books
@@ -56,13 +55,11 @@ func generateHeaders() []string {
 
 // returns a []string that compose the row in the csv file
 func generateRow(books Crawler.Book) []string {
-	var cnjReturn string
 	return []string{
 		books.SearchName,
 		books.ISBN,
 		books.AvailableDate,
 		books.Pages,
 		books.PubYear,
-		strings.TrimSpace(cnjReturn),
 	}
 }
