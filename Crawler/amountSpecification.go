@@ -20,10 +20,10 @@ func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, erro
 	}
 
 	if len(links) > 1 {
-		//TODO: need to parse all book founded not only the first one
+		//TODO: need to parse all books
 		return bookLink{
 			HasLink: true,
-			Link:    links[0],
+			Link:    nil,
 		}, nil
 	} else if len(links) != 0 {
 		return bookLink{
