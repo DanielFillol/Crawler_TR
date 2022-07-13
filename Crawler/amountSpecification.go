@@ -1,6 +1,8 @@
 package Crawler
 
 import (
+	"errors"
+	"fmt"
 	"github.com/tebeka/selenium"
 )
 
@@ -24,9 +26,10 @@ func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, erro
 
 	if len(links) > 1 {
 		//TODO: need to parse all books
+		fmt.Println("to many books")
 		return bookLink{
-			HasLink:    true,
-			LinkSearch: links[0],
+			HasLink:    false,
+			LinkSearch: nil,
 		}, nil
 	} else if len(links) != 0 {
 		return bookLink{
@@ -44,7 +47,7 @@ func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, erro
 func amountSpecification(driver selenium.WebDriver, bookOpenLink string, productSpecificationTR string) (bookLink, error) {
 	oneBook, err := onlyOneBook(driver, bookOpenLink)
 	if err != nil {
-		return bookLink{}, err
+		return bookLink{}, errors.New("no book founded or too many founded")
 	}
 
 	if oneBook.HasLink {

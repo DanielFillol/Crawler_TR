@@ -52,16 +52,10 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 		}
 
 		if specification != "" {
-			//TODO: does this makes sense?
 			position := i + 1
-			elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position)+"]/div[2]")
-			if err != nil {
-				return Book{}, err
-			}
-
 			switch specification {
 			case ISBN:
-				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
+				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -73,7 +67,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 
 				isbn = text
 			case Date:
-				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
+				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -85,7 +79,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 
 				dtDis = text
 			case Pages:
-				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
+				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}
@@ -97,7 +91,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 
 				pgs = text
 			case Year:
-				elem, err = driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
+				elem, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"caracteristicas\"]/div[2]/div["+strconv.Itoa(position-1)+"]/div[2]")
 				if err != nil {
 					return Book{}, err
 				}

@@ -31,7 +31,7 @@ func main() {
 
 		driver.Close()
 
-		fmt.Println(strconv.Itoa(i+1) + "-" + strconv.Itoa(len(bookNames)) + " " + bookNames[i])
+		fmt.Println(strconv.Itoa(i+1) + "/" + strconv.Itoa(len(bookNames)))
 	}
 
 	defer driver.Close()
