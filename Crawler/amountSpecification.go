@@ -54,11 +54,7 @@ func amountSpecification(driver selenium.WebDriver, bookOpenLink string, product
 		}
 
 		link := https + href
-		err = driver.Get(link)
-		if err != nil {
-			//This error happens very often in this website
-			//println("something wrong with loading status amount spec")
-		}
+		driver.Get(link)
 
 		specification, err := driver.FindElements(selenium.ByXPATH, productSpecificationTR)
 		if err != nil {

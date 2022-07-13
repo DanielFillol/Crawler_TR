@@ -1,6 +1,8 @@
 package Crawler
 
-import "github.com/tebeka/selenium"
+import (
+	"github.com/tebeka/selenium"
+)
 
 const (
 	webSiteTR              = "https://www.livrariart.com.br/#&search-term="
@@ -20,13 +22,8 @@ type Book struct {
 }
 
 func Craw(driver selenium.WebDriver, bookName string) (Book, error) {
-	bookSearch := webSiteTR + bookName
-
-	err := driver.Get(bookSearch)
-	if err != nil {
-		//This error happens very often in this website
-		//println("something wrong with loading status craw")
-	}
+	bookURL := webSiteTR + bookName
+	driver.Get(bookURL)
 
 	foundBooks, err := hasFoundBooks(driver, searchResultTR, notFoundTR)
 	if err != nil {
