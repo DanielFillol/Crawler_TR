@@ -7,14 +7,21 @@ import (
 )
 
 func main() {
-	bookNames, err := CSV.ReadCsvFile("CSV/book4.csv")
+	driver, err := Crawler.SeleniumWebDriver()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer driver.Close()
+
+	bookNames, err := CSV.ReadCsvFile("CSV/book1.csv")
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	var data []Crawler.Book
 	for i := 0; i < len(bookNames); i++ {
-		book, err := Crawler.Craw(bookNames[i])
+		book, err := Crawler.Craw(driver, bookNames[i])
 		if err != nil {
 			fmt.Println(err)
 		}

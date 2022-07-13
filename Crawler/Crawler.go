@@ -1,5 +1,7 @@
 package Crawler
 
+import "github.com/tebeka/selenium"
+
 const (
 	webSiteTR              = "https://www.livrariart.com.br/#&search-term="
 	bookOpenLink           = "//*[@id=\"smarthint-search-products\"]/section/div[2]/div/div/ul/div/li/div/div/div[1]/div[3]/h3/a"
@@ -17,17 +19,10 @@ type Book struct {
 	Link          string
 }
 
-func Craw(bookName string) (Book, error) {
-	driver, err := SeleniumWebDriver()
-	if err != nil {
-		return Book{}, err
-	}
-
-	defer driver.Close()
-
+func Craw(driver selenium.WebDriver, bookName string) (Book, error) {
 	bookSearch := webSiteTR + bookName
 
-	err = driver.Get(bookSearch)
+	err := driver.Get(bookSearch)
 	if err != nil {
 		//This error happens very often in this website
 		//println("something wrong with loading status craw")
