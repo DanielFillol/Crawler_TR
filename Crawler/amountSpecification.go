@@ -5,12 +5,15 @@ import (
 )
 
 type bookLink struct {
-	HasLink bool
-	Link    selenium.WebElement
+	HasLink    bool
+	LinkSearch selenium.WebElement
+	Link       string
+	Amount     int
 }
 
 const (
-	https = "https:"
+	https     = "https:"
+	attribute = "href"
 )
 
 func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, error) {
@@ -22,50 +25,57 @@ func onlyOneBook(driver selenium.WebDriver, bookOpenLink string) (bookLink, erro
 	if len(links) > 1 {
 		//TODO: need to parse all books
 		return bookLink{
-			HasLink: true,
-			Link:    links[0],
+			HasLink:    true,
+			LinkSearch: links[0],
 		}, nil
 	} else if len(links) != 0 {
 		return bookLink{
-			HasLink: true,
-			Link:    links[0],
+			HasLink:    true,
+			LinkSearch: links[0],
 		}, nil
 	} else {
 		return bookLink{
-			HasLink: false,
-			Link:    nil,
+			HasLink:    false,
+			LinkSearch: nil,
 		}, nil
 	}
 }
 
-func amountSpecification(driver selenium.WebDriver, bookOpenLink string, productSpecificationTR string) (int, error) {
+func amountSpecification(driver selenium.WebDriver, bookOpenLink string, productSpecificationTR string) (bookLink, error) {
 	oneBook, err := onlyOneBook(driver, bookOpenLink)
 	if err != nil {
-		return 0, err
+		return bookLink{}, err
 	}
 
 	if oneBook.HasLink {
-		link, err := oneBook.Link.GetAttribute("href")
+		href, err := oneBook.LinkSearch.GetAttribute(attribute)
 		if err != nil {
-			return 0, err
+			return bookLink{}, err
 		}
 
-		err = driver.Get(https + link)
+		link := https + href
+		err = driver.Get(link)
 		if err != nil {
-			return 0, err
+			//This error happens very often in this website
+			//println("something wrong with loading status amount spec")
 		}
 
 		specification, err := driver.FindElements(selenium.ByXPATH, productSpecificationTR)
 		if err != nil {
-			return 0, err
+			return bookLink{}, err
 		}
 
 		if len(specification) != 0 {
-			return len(specification), nil
+			return bookLink{
+				HasLink:    oneBook.HasLink,
+				LinkSearch: oneBook.LinkSearch,
+				Link:       link,
+				Amount:     len(specification),
+			}, nil
 		}
 
 	}
 
-	return 0, nil
+	return bookLink{}, nil
 
 }

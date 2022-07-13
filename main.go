@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	bookNames, err := CSV.ReadCsvFile("CSV/bookTitles.csv")
+	bookNames, err := CSV.ReadCsvFile("CSV/book4.csv")
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	var data []Crawler.Book
-	for i := 0; i < 10; i++ {
+	for i := 0; i < len(bookNames); i++ {
 		book, err := Crawler.Craw(bookNames[i])
 		if err != nil {
 			fmt.Println(err)

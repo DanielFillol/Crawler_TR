@@ -14,14 +14,6 @@ const (
 	Year           = "Ano de publicação"
 )
 
-type Book struct {
-	SearchName    string
-	ISBN          string
-	AvailableDate string
-	Pages         string
-	PubYear       string
-}
-
 func title(driver selenium.WebDriver, i int) (string, error) {
 	xpath := xpathTitleInit + strconv.Itoa(i) + xpathTitleEnd
 
@@ -48,12 +40,12 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 	var pgs string
 	var yr string
 
-	loop, err := amountSpecification(driver, bookOpenLink, productSpecificationTR)
+	bookLink, err := amountSpecification(driver, bookOpenLink, productSpecificationTR)
 	if err != nil {
 		return Book{}, err
 	}
 
-	for i := 0; i < loop; i++ {
+	for i := 0; i < bookLink.Amount; i++ {
 		specification, err := title(driver, i)
 		if err != nil {
 			return Book{}, err
@@ -126,6 +118,7 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 		AvailableDate: dtDis,
 		Pages:         pgs,
 		PubYear:       yr,
+		Link:          bookLink.Link,
 	}, nil
 
 }

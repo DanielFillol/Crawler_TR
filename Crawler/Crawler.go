@@ -8,6 +8,15 @@ const (
 	productSpecificationTR = "//*[@id=\"caracteristicas\"]/div[2]/div"
 )
 
+type Book struct {
+	SearchName    string
+	ISBN          string
+	AvailableDate string
+	Pages         string
+	PubYear       string
+	Link          string
+}
+
 func Craw(bookName string) (Book, error) {
 	driver, err := SeleniumWebDriver()
 	if err != nil {
@@ -20,7 +29,8 @@ func Craw(bookName string) (Book, error) {
 
 	err = driver.Get(bookSearch)
 	if err != nil {
-		return Book{}, err
+		//This error happens very often in this website
+		//println("something wrong with loading status craw")
 	}
 
 	foundBooks, err := hasFoundBooks(driver, searchResultTR, notFoundTR)
