@@ -14,39 +14,19 @@ const (
 	Year           = "Ano de publicação"
 )
 
-func title(driver selenium.WebDriver, i int) (string, error) {
-	xpath := xpathTitleInit + strconv.Itoa(i) + xpathTitleEnd
-
-	titles, err := driver.FindElements(selenium.ByXPATH, xpath)
-	if err != nil {
-		return "", err
-	}
-
-	if len(titles) != 0 {
-		textTitle, err := titles[0].Text()
-		if err != nil {
-			return "", err
-		}
-
-		return textTitle, nil
-	}
-
-	return "", nil
-}
-
-func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
+func getBook(driver selenium.WebDriver, bookName string) (Book, error) {
 	var isbn string
 	var dtDis string
 	var pgs string
 	var yr string
 
-	bookLink, err := amountSpecification(driver, bookOpenLink, productSpecificationTR)
+	bookStruct, err := getBookLink(driver, bookOpenLink, productSpecificationTR, bookName)
 	if err != nil {
 		return Book{}, err
 	}
 
-	for i := 0; i < bookLink.Amount; i++ {
-		specification, err := title(driver, i)
+	for i := 0; i < bookStruct.Amount; i++ {
+		specification, err := getTitle(driver, i)
 		if err != nil {
 			return Book{}, err
 		}
@@ -112,7 +92,27 @@ func bookFounded(driver selenium.WebDriver, bookName string) (Book, error) {
 		AvailableDate: dtDis,
 		Pages:         pgs,
 		PubYear:       yr,
-		Link:          bookLink.Link,
+		Link:          bookStruct.Link,
 	}, nil
 
+}
+
+func getTitle(driver selenium.WebDriver, i int) (string, error) {
+	xpath := xpathTitleInit + strconv.Itoa(i) + xpathTitleEnd
+
+	titles, err := driver.FindElements(selenium.ByXPATH, xpath)
+	if err != nil {
+		return "", err
+	}
+
+	if len(titles) != 0 {
+		textTitle, err := titles[0].Text()
+		if err != nil {
+			return "", err
+		}
+
+		return textTitle, nil
+	}
+
+	return "", nil
 }

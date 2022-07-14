@@ -26,13 +26,13 @@ func Craw(driver selenium.WebDriver, bookName string) (Book, error) {
 	bookURL := webSiteTR + bookName
 	driver.Get(bookURL)
 
-	foundBooks, err := hasFoundBooks(driver, searchResultTR, notFoundTR)
+	found, err := getSearchResult(driver, searchResultTR, notFoundTR)
 	if err != nil {
 		return Book{}, err
 	}
 
-	if foundBooks {
-		book, err := bookFounded(driver, bookName)
+	if found {
+		book, err := getBook(driver, bookName)
 		if err != nil {
 			return Book{}, err
 		}
