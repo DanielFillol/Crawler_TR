@@ -23,7 +23,7 @@ func findBooks(resultElem []selenium.WebElement, notFoundTR string) (bool, error
 		return false, err
 	}
 
-	if resultText != notFoundTR {
+	if resultText[0:16] != notFoundTR {
 		return true, nil
 	}
 

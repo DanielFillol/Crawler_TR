@@ -14,8 +14,8 @@ func main() {
 		fmt.Println(err)
 	}
 
-	var data []Crawler.Book
 	var driver selenium.WebDriver
+	var data []Crawler.Book
 	for i := 0; i < len(bookNames); i++ {
 		driver, err = Crawler.SeleniumWebDriver()
 		if err != nil {
@@ -29,9 +29,9 @@ func main() {
 
 		data = append(data, book)
 
-		driver.Close()
-
 		fmt.Println(strconv.Itoa(i+1) + "/" + strconv.Itoa(len(bookNames)))
+
+		driver.Close()
 	}
 
 	defer driver.Close()

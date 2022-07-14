@@ -51,6 +51,7 @@ func generateHeaders() []string {
 		"Número de páginas",
 		"Ano de publicação",
 		"Link",
+		"Error",
 	}
 }
 
@@ -63,5 +64,6 @@ func generateRow(books Crawler.Book) []string {
 		books.Pages,
 		books.PubYear,
 		books.Link,
+		books.Error,
 	}
 }
