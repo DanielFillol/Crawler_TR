@@ -87,7 +87,6 @@ func getBook(driver selenium.WebDriver, bookName string) (Book, error) {
 	}
 
 	return Book{
-		SearchName:    bookName,
 		ISBN:          isbn,
 		AvailableDate: dtDis,
 		Pages:         pgs,

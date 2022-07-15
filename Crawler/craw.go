@@ -36,7 +36,15 @@ func Craw(driver selenium.WebDriver, bookName string) (Book, error) {
 		if err != nil {
 			return Book{}, err
 		}
-		return book, nil
+		return Book{
+			SearchName:    bookName,
+			ISBN:          book.ISBN,
+			AvailableDate: book.AvailableDate,
+			Pages:         book.Pages,
+			PubYear:       book.PubYear,
+			Link:          book.Link,
+			Error:         book.Error,
+		}, nil
 	}
 
 	return Book{SearchName: bookName, Error: "Book not Found"}, nil

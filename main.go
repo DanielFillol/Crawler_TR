@@ -6,9 +6,12 @@ import (
 	"github.com/Darklabel91/Crawler_TR/Crawler"
 	"github.com/tebeka/selenium"
 	"strconv"
+	time2 "time"
 )
 
 func main() {
+	begin := time2.Now()
+
 	bookNames, err := CSV.ReadCsvFile("CSV/books.csv")
 	if err != nil {
 		fmt.Println(err)
@@ -40,4 +43,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	elapsed := time2.Since(begin)
+	fmt.Println(elapsed)
 }

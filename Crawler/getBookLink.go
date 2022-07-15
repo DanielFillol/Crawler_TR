@@ -84,7 +84,7 @@ func getLink(driver selenium.WebDriver, bookOpenLink string, bookName string) (b
 
 func getSpecificLink(driver selenium.WebDriver, links []selenium.WebElement, bookName string) (selenium.WebElement, error) {
 	for link := range links {
-		elemBookTitle, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"smarthint-search-products\"]/section/div[2]/div/div/ul/div["+strconv.Itoa(link)+"]/li/div/div/div[1]/div[3]/h3/a/span")
+		elemBookTitle, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"smarthint-search-products\"]/section/div[2]/div/div/ul/div["+strconv.Itoa(link+1)+"]/li/div/div/div[1]/div[3]/h3/a/span")
 		if err != nil {
 			return nil, err
 		}
@@ -95,7 +95,7 @@ func getSpecificLink(driver selenium.WebDriver, links []selenium.WebElement, boo
 		}
 
 		if strings.Contains(bookTitle, bookName) {
-			elementLinkSearch, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"smarthint-search-products\"]/section/div[2]/div/div/ul/div["+strconv.Itoa(link)+"]/li/div/div/div[1]/div[3]/h3/a")
+			elementLinkSearch, err := driver.FindElement(selenium.ByXPATH, "//*[@id=\"smarthint-search-products\"]/section/div[2]/div/div/ul/div["+strconv.Itoa(link+1)+"]/li/div/div/div[1]/div[3]/h3/a")
 			if err != nil {
 				return nil, err
 			}
